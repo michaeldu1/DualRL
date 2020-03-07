@@ -54,8 +54,8 @@ def get_style_ngrams(src_path_prefix, threshold=10, num_words=10000, save_path_p
         tfidf0[w] = (c0[w] + 1.0) / (c1[w] + 1.0)
         tfidf1[w] = 1.0 / tfidf0[w]
 
-    tfidf0 = sorted(tfidf0.iteritems(), key=lambda k,v: (v,k), reverse=True)
-    tfidf1 = sorted(tfidf1.iteritems(), key=lambda k,v: (v,k), reverse=True)
+    tfidf0 = sorted(tfidf0.items(), key=lambda x: (x[1], x[0]), reverse=True)
+    tfidf1 = sorted(tfidf1.items(), key=lambda x: (x[1], x[0]), reverse=True)
 
     if dataset:
         if dataset in threshold_info:
@@ -63,9 +63,10 @@ def get_style_ngrams(src_path_prefix, threshold=10, num_words=10000, save_path_p
         if dataset in num_words_info:
             num_words = num_words_info[dataset]
 
-    tfidf0 = filter(lambda k, v: v >= threshold, tfidf0)
-    tfidf1 = filter(lambda k, v: v >= threshold, tfidf1)
+    tfidf0 = filter(lambda x: x[1] >= threshold, tfidf0.items())
+    tfidf1 = filter(lambda x: x[1] >= threshold, tfidf1.items())
 
+    print('here', tfidf0)
     tfidf0 = tfidf0[:num_words]
     tfidf1 = tfidf1[:num_words]
 
